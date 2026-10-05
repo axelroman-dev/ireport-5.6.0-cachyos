@@ -10,6 +10,30 @@ sudo pacman -S xpra xorg-server-xvfb xorg-xauth
 ./ireport-x11.sh    # abre iReport
 ```
 
+## AppImage
+
+Un solo archivo con iReport + JDK 7 + lanzador. El sistema solo necesita `xpra xorg-server-xvfb xorg-xauth`.
+
+Descargarlo de las Releases del repo:
+
+```bash
+gh release download -R axelroman-dev/ireport-5.6.0-cachyos -p '*.AppImage'
+chmod +x iReport-5.6.0-x86_64.AppImage
+./iReport-5.6.0-x86_64.AppImage
+```
+
+Construirlo (genera `dist/iReport-5.6.0-x86_64.AppImage`; `build/` y `dist/` no se versionan):
+
+```bash
+./build-appimage.sh
+```
+
+Publicar una versión nueva:
+
+```bash
+gh release create v5.6.0-N dist/iReport-5.6.0-x86_64.AppImage --title "iReport 5.6.0 (build N)" --notes "..."
+```
+
 ## Problemas y soluciones
 
 | Problema | Causa | Solución |
@@ -24,6 +48,7 @@ Se probó y descartó **Xephyr + Openbox** (X11 anidado en una ventana): funcion
 ## Archivos propios de este repo
 
 - `setup.sh` — descarga/verifica el JDK 7 y coloca el driver MySQL.
+- `build-appimage.sh` — arma el AppDir (archivos versionados + `jre/` + `AppRun` + `.desktop` + icono extraído de `core_ireport.jar`) y lo empaqueta con `appimagetool`.
 - `ireport-x11.sh` — lanzador:
   - busca un display libre y arranca `xpra` con `Xvfb` (5120x2880 virtual) y iReport como proceso hijo; todo se cierra al cerrar iReport;
   - abre la ventana principal en **1920x1080 centrada** (ajusta `~/.ireport/5.6.0/config/Windows2Local/WindowManager.wswmgr`); se cambia con `WIN_W`/`WIN_H` en el script;
@@ -41,7 +66,6 @@ Se probó y descartó **Xephyr + Openbox** (X11 anidado en una ventana): funcion
 
 ## Pendiente
 
-- Empaquetar como AppImage (iReport + `jre/` + lanzador; `xpra`, `Xvfb` y `xauth` quedan como dependencias del sistema).
 - Lanzador `.desktop` para el menú de KDE.
 
 ## Licencias
