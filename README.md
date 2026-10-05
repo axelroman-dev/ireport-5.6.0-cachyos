@@ -68,6 +68,11 @@ Se probó y descartó **Xephyr + Openbox** (X11 anidado en una ventana): funcion
 
 - Lanzador `.desktop` para el menú de KDE.
 
+## Créditos
+
+- **Axel Román** ([@axelroman-dev](https://github.com/axelroman-dev)): idea, requisitos y pruebas en CachyOS/KDE Wayland.
+- **Claude** (Anthropic, vía Claude Code): diagnóstico, scripts (`setup.sh`, `ireport-x11.sh`, `build-appimage.sh`), empaquetado AppImage y documentación.
+
 ## Licencias
 
 iReport: ver `LICENSE_ireport.txt`, `notice.txt` y `Third-Party-Notices.pdf`. Azul Zulu (no incluido en el repo, se descarga): GPLv2 con Classpath Exception.
