@@ -2,6 +2,10 @@
 
 iReport 5.6.0 (Jaspersoft, 2014) adaptado para correr en un Linux moderno con sesión **Wayland** (KDE Plasma), sin instalar Java viejo en el sistema ni cambiar a una sesión X11.
 
+> **Proyecto no oficial.** No está afiliado ni respaldado por Jaspersoft / TIBCO / Cloud Software Group. "iReport" y "JasperReports" son marcas de sus respectivos dueños. iReport está descontinuado; su sucesor oficial es Jaspersoft Studio.
+
+> **Seguridad.** Java 7 e iReport 5.6.0 ya no reciben parches de seguridad. Úsalo para diseñar reportes en tu equipo; no abras `.jrxml`/`.jasper` de origen desconocido ni lo expongas a la red.
+
 ## Uso rápido
 
 ```bash
@@ -14,10 +18,12 @@ sudo pacman -S xpra xorg-server-xvfb xorg-xauth
 
 Un solo archivo con iReport + JDK 7 + lanzador. El sistema solo necesita `xpra xorg-server-xvfb xorg-xauth`.
 
-Descargarlo de las Releases del repo:
+Descarga directa: [iReport-5.6.0-x86_64.AppImage](https://github.com/axelroman-dev/ireport-5.6.0-cachyos/releases/latest/download/iReport-5.6.0-x86_64.AppImage) ([todas las versiones](https://github.com/axelroman-dev/ireport-5.6.0-cachyos/releases))
 
 ```bash
-gh release download -R axelroman-dev/ireport-5.6.0-cachyos -p '*.AppImage'
+curl -LO https://github.com/axelroman-dev/ireport-5.6.0-cachyos/releases/latest/download/iReport-5.6.0-x86_64.AppImage
+curl -LO https://github.com/axelroman-dev/ireport-5.6.0-cachyos/releases/latest/download/iReport-5.6.0-x86_64.AppImage.sha256
+sha256sum -c iReport-5.6.0-x86_64.AppImage.sha256
 chmod +x iReport-5.6.0-x86_64.AppImage
 ./iReport-5.6.0-x86_64.AppImage
 ```
@@ -31,8 +37,11 @@ Construirlo (genera `dist/iReport-5.6.0-x86_64.AppImage`; `build/` y `dist/` no 
 Publicar una versión nueva:
 
 ```bash
-gh release create v5.6.0-N dist/iReport-5.6.0-x86_64.AppImage --title "iReport 5.6.0 (build N)" --notes "..."
+cd dist && sha256sum iReport-5.6.0-x86_64.AppImage > iReport-5.6.0-x86_64.AppImage.sha256 && cd ..
+gh release create v5.6.0-N dist/iReport-5.6.0-x86_64.AppImage* dist/iReport-5.6.0-src.zip* --title "iReport 5.6.0 (build N)" --notes "..."
 ```
+
+Cada Release debe incluir también `iReport-5.6.0-src.zip` (código fuente de iReport, requisito de la AGPL; ver [Licencias](#licencias)).
 
 ## Problemas y soluciones
 
@@ -75,4 +84,12 @@ Se probó y descartó **Xephyr + Openbox** (X11 anidado en una ventana): funcion
 
 ## Licencias
 
-iReport: ver `LICENSE_ireport.txt`, `notice.txt` y `Third-Party-Notices.pdf`. Azul Zulu (no incluido en el repo, se descarga): GPLv2 con Classpath Exception.
+| Componente | Licencia | Código fuente |
+|---|---|---|
+| Scripts y documentación de este repo (`README.md`, `setup.sh`, `ireport-x11.sh`, `build-appimage.sh`) | MIT — ver `LICENSE-scripts` | este repo |
+| iReport 5.6.0 (sin modificar salvo `etc/ireport.conf` y la desactivación del módulo heartbeat) | AGPLv3 — `LICENSE_ireport.txt`, `notice.txt` | `iReport-5.6.0-src.zip` adjunto en cada [Release](https://github.com/axelroman-dev/ireport-5.6.0-cachyos/releases); original en [SourceForge](https://sourceforge.net/projects/ireport/files/iReport/iReport-5.6.0/) |
+| Bibliotecas incluidas en iReport (NetBeans, JasperReports, etc.) | Varias — `Third-Party-Notices.pdf`, `license-text-files/` | incluidas en el zip de fuentes / proyectos originales |
+| MySQL Connector/J (`libs/`) | GPLv2 con Universal FOSS Exception | [mysql/mysql-connector-j](https://github.com/mysql/mysql-connector-j) (tags `5.1.49`, `8.0.33`, `8.3.0`) |
+| Azul Zulu JDK 7u352 (no está en el repo; va dentro del AppImage) | GPLv2 con Classpath Exception — `jre/LICENSE`, `jre/THIRD_PARTY_README` | `jre/src.zip` (biblioteca de clases) y oferta escrita de Azul en `jre/readme.txt` (azul_openjdk@azul.com); basado en [OpenJDK 7u](https://github.com/openjdk/jdk7u) |
+
+Los cambios hechos sobre iReport están en el historial de git: `git diff 276445c d947782`.
