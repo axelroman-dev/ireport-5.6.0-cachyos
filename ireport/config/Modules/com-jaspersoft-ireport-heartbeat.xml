@@ -4,7 +4,7 @@
 <module name="com.jaspersoft.ireport.heartbeat">
     <param name="autoload">false</param>
     <param name="eager">false</param>
-    <param name="enabled">true</param>
+    <param name="enabled">false</param>
     <param name="jar">modules/com-jaspersoft-ireport-heartbeat.jar</param>
     <param name="reloadable">false</param>
     <param name="specversion">1.0</param>
